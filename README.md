@@ -43,4 +43,6 @@ node tests/smoke.mjs
 - Previews use `textContent`; CSP restricts script/style sources
 - Icons and previews are local SVGs (no remote branding assets)
 
-> Replace `https://chrono.example.com` with your real domain before production.
+## Live
+
+GitHub Pages: https://comptech-admin.github.io/calendar-reminder/
