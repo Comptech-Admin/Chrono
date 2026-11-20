@@ -23,11 +23,13 @@ Chrono is a static calendar-reminder app: compose an event, download an `.ics`, 
 
 ## Run locally
 
+Any static file server works (python, nginx, Caddy, etc.) on any port you choose. Example with Python:
+
 ```bash
 python3 -m http.server 4173
 ```
 
-Open `http://localhost:4173`.
+Then open `http://localhost:4173` (or whatever host/port your server uses).
 
 ## Tests
 
