@@ -37,6 +37,8 @@ Then open `http://localhost:4173`.
 
 ## Tests
 
+Requires [Node.js](https://nodejs.org/) (`node` on your `PATH`). Install via your package manager if needed (e.g. `apt install nodejs`, `brew install node`, or the official installer).
+
 ```bash
 node tests/smoke.mjs
 ```
