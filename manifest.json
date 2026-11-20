@@ -3,8 +3,8 @@
   "short_name": "Chrono",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#f2f5f7",
-  "theme_color": "#0f6d63",
+  "background_color": "#12181f",
+  "theme_color": "#12181f",
   "description": "Generate calendar invites, reminders, QR codes, and share links.",
   "icons": [
     {

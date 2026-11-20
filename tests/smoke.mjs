@@ -4,8 +4,24 @@ import vm from "node:vm";
 
 function loadAppApi() {
   const source = readFileSync(new URL("../js/app.js", import.meta.url), "utf8");
+  const attrs = { "data-theme": "dark" };
+  const documentElement = {
+    getAttribute(name) {
+      return Object.prototype.hasOwnProperty.call(attrs, name) ? attrs[name] : null;
+    },
+    setAttribute(name, value) {
+      attrs[name] = String(value);
+    }
+  };
   const document = {
     _els: {},
+    documentElement,
+    querySelector(sel) {
+      if (sel === 'meta[name="theme-color"]') {
+        return { setAttribute() {} };
+      }
+      return null;
+    },
     getElementById(id) {
       if (!this._els[id]) {
         this._els[id] = {
@@ -28,10 +44,21 @@ function loadAppApi() {
     }
   };
 
+  const localStorage = {
+    _data: {},
+    getItem(key) {
+      return Object.prototype.hasOwnProperty.call(this._data, key) ? this._data[key] : null;
+    },
+    setItem(key, value) {
+      this._data[key] = String(value);
+    }
+  };
+
   const sandbox = {
     window: {},
     document,
     navigator: {},
+    localStorage,
     crypto: { randomUUID: () => "00000000-0000-4000-8000-000000000000" },
     URL: { createObjectURL: () => "blob:test", revokeObjectURL() {} },
     Blob: class {
@@ -56,11 +83,19 @@ function loadAppApi() {
   vm.runInNewContext(source, sandbox, { filename: "app.js" });
   const api = sandbox.window.Chrono;
   assert.ok(api, "Chrono API should be exported on window");
-  return api;
+  return { api, documentElement, localStorage };
 }
 
 function run() {
-  const api = loadAppApi();
+  const { api, documentElement, localStorage } = loadAppApi();
+
+  assert.equal(api.getTheme(), "dark");
+  api.setTheme("light");
+  assert.equal(api.getTheme(), "light");
+  assert.equal(documentElement.getAttribute("data-theme"), "light");
+  assert.equal(localStorage.getItem("chrono-theme"), "light");
+  api.setTheme("dark");
+  assert.equal(api.getTheme(), "dark");
 
   assert.equal(api.safeText("a,b;c\\d\ne"), "a\\,b\\;c\\\\d\\ne");
   assert.equal(api.clampReminder(-5), 0);
@@ -111,16 +146,25 @@ function run() {
   assert.match(html, /Chrono/);
   assert.doesNotMatch(html, /Datepin|Daywire|EventPulse|📅/);
   assert.equal((html.match(/<!DOCTYPE html>/gi) || []).length, 1);
+  assert.match(html, /data-theme="dark"/);
+  assert.match(html, /id="themeToggle"/);
   assert.match(html, /css\/styles\.css/);
   assert.match(html, /js\/app\.js/);
   assert.match(html, /family=Syne/);
   assert.match(html, /family=Figtree/);
 
   const css = readFileSync(new URL("../css/styles.css", import.meta.url), "utf8");
+  assert.match(css, /\[data-theme="dark"\]/);
+  assert.match(css, /\[data-theme="light"\]/);
   assert.match(css, /--accent:\s*#0f6d63/);
   assert.match(css, /Syne/);
   assert.match(css, /Figtree/);
   assert.doesNotMatch(css, /Inter|Roboto|#5b6cff|#0b1020/);
+
+  const js = readFileSync(new URL("../js/app.js", import.meta.url), "utf8");
+  assert.match(js, /chrono-theme/);
+  assert.match(js, /api\.setTheme/);
+  assert.match(js, /api\.getTheme/);
 
   const readme = readFileSync(new URL("../README.md", import.meta.url), "utf8");
   assert.match(readme, /^# Chrono/m);
@@ -131,7 +175,7 @@ function run() {
   assert.match(manifest.name, /Chrono/);
 
   const sw = readFileSync(new URL("../service-worker.js", import.meta.url), "utf8");
-  assert.match(sw, /chrono-v1/);
+  assert.match(sw, /chrono-v2/);
   assert.match(sw, /css\/styles\.css/);
   assert.match(sw, /js\/app\.js/);
 

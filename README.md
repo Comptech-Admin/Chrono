@@ -4,7 +4,7 @@ Chrono is a static calendar-reminder app: compose an event, download an `.ics`, 
 
 ## Features
 
-- Light, professional UI for desktop and mobile
+- Professional UI with dark mode default and a light/dark toggle
 - One-click `.ics` download with reminder alarms
 - Google Calendar deep link
 - QR code for the full event link (title, time, location, description)

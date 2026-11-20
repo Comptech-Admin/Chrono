@@ -298,6 +298,43 @@
     }, 0);
   });
 
+  const THEME_KEY = "chrono-theme";
+  const themeToggle = document.getElementById("themeToggle");
+  const root = document.documentElement;
+
+  function applyTheme(theme) {
+    const next = theme === "light" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    const isDark = next === "dark";
+    themeToggle.setAttribute("aria-pressed", String(isDark));
+    themeToggle.setAttribute("aria-label", isDark ? "Switch to light mode" : "Switch to dark mode");
+    themeToggle.textContent = isDark ? "Light mode" : "Dark mode";
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    if (metaTheme) metaTheme.setAttribute("content", isDark ? "#12181f" : "#f2f5f7");
+  }
+
+  api.getTheme = function getTheme() {
+    return root.getAttribute("data-theme") === "light" ? "light" : "dark";
+  };
+
+  api.setTheme = function setTheme(theme) {
+    applyTheme(theme);
+    try {
+      localStorage.setItem(THEME_KEY, api.getTheme());
+    } catch (_) { /* ignore quota / private mode */ }
+  };
+
+  try {
+    const saved = localStorage.getItem(THEME_KEY);
+    applyTheme(saved === "light" || saved === "dark" ? saved : "dark");
+  } catch (_) {
+    applyTheme("dark");
+  }
+
+  themeToggle.addEventListener("click", () => {
+    api.setTheme(api.getTheme() === "dark" ? "light" : "dark");
+  });
+
   populateTimezones();
   refreshPreview();
 

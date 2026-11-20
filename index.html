@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -7,7 +7,7 @@
   <meta name="description" content="Create calendar invites with reminders, .ics downloads, Google Calendar links, and QR codes — fast, private, and offline-friendly." />
   <meta name="keywords" content="calendar invite, ICS generator, QR calendar, event reminder, Google Calendar link" />
   <meta name="author" content="Chrono" />
-  <meta name="theme-color" content="#0f6d63" />
+  <meta name="theme-color" content="#12181f" />
   <meta property="og:title" content="Chrono | Calendar Invite &amp; QR Generator" />
   <meta property="og:description" content="Build shareable calendar invites with ICS, Google links, and QR codes." />
   <meta property="og:type" content="website" />
@@ -40,8 +40,13 @@
 <body>
   <div class="shell">
     <header class="brand" aria-label="Chrono">
-      <div class="brand__mark">Chrono</div>
-      <p class="brand__tag">Calendar invites you can download, scan, or share in one pass.</p>
+      <div class="brand__copy">
+        <div class="brand__mark">Chrono</div>
+        <p class="brand__tag">Calendar invites you can download, scan, or share in one pass.</p>
+      </div>
+      <button type="button" class="theme-toggle" id="themeToggle" aria-pressed="true" aria-label="Switch to light mode">
+        Light mode
+      </button>
     </header>
 
     <main class="layout" aria-label="Calendar invite generator">
