@@ -1,11 +1,11 @@
 {
-  "name": "EventPulse Calendar Generator",
-  "short_name": "EventPulse",
+  "name": "Chrono Calendar Invites",
+  "short_name": "Chrono",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#0b1020",
-  "theme_color": "#5b6cff",
-  "description": "Generate calendar invites, QR codes, and share links.",
+  "background_color": "#f2f5f7",
+  "theme_color": "#0f6d63",
+  "description": "Generate calendar invites, reminders, QR codes, and share links.",
   "icons": [
     {
       "src": "./assets/icon.svg",
