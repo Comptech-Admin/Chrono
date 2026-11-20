@@ -1,5 +1,7 @@
 # Chrono — Calendar Invite + QR Generator
 
+**Default serve port: 80** (nginx/production). Optional local example: `python3 -m http.server 4173`.
+
 Chrono is a static calendar-reminder app: compose an event, download an `.ics`, open Google Calendar, or share a QR — no account, no backend.
 
 ## Features
