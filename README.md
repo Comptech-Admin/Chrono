@@ -1,86 +1,46 @@
-# EventPulse — Calendar Invite + QR Generator
+# Chrono — Calendar Invite + QR Generator
 
-EventPulse is a redesigned static web app that helps users create beautiful, shareable event invites.
+Chrono is a static calendar-reminder app: compose an event, download an `.ics`, open Google Calendar, or share a QR — no account, no backend.
 
 ## Features
 
-- Modern, responsive UI optimized for desktop and mobile.
-- One-click `.ics` file generation.
-- One-click Google Calendar link generation.
-- QR code generation for event links (now includes **title, time, location, and description**).
-- Auto-end-time logic: when users choose a start time, end time defaults to **+1 hour**.
-- Web Share support for mobile-friendly sharing.
-- Live event preview panel.
-- PWA basics (`manifest.json` + `service-worker.js`).
-- SEO improvements (`meta` tags, Open Graph, Twitter tags, JSON-LD, `robots.txt`, `sitemap.xml`).
+- Professional UI with dark mode default and a light/dark toggle
+- One-click `.ics` download with reminder alarms
+- Google Calendar deep link
+- QR code for the full event link (title, time, location, description)
+- Auto end-time (+1 hour) when start changes
+- Live preview, Web Share / clipboard fallback
+- PWA shell (`manifest.json` + `service-worker.js`)
+- SEO basics (meta, Open Graph, Twitter, JSON-LD, `robots.txt`, `sitemap.xml`)
 
-## Project structure
+## Structure
 
-- `index.html` — Main app UI, styling, and logic.
-- `service-worker.js` — Cache-first shell plus runtime caching.
-- `manifest.json` — PWA metadata.
-- `robots.txt` — Search crawler rules.
-- `sitemap.xml` — Sitemap entry.
+- `index.html` — markup + SEO shell
+- `css/styles.css` — layout and theme
+- `js/app.js` — validation, ICS, Google URL, QR, share
+- `assets/` — local icon and social preview SVGs
+- `tests/smoke.mjs` — logic smoke tests
 
 ## Run locally
-
-This is a static app, so any static server works.
 
 ```bash
 python3 -m http.server 4173
 ```
 
-Then open:
+Open `http://localhost:4173`.
 
-```text
-http://localhost:4173
+## Tests
+
+```bash
+node tests/smoke.mjs
 ```
 
-## Security audit summary
+## Security notes
 
-### Risks found in original implementation
+- ICS fields escape `\`, `,`, `;`, and newlines
+- Start/end validation and reminder clamped to `0..40320`
+- `window.open(..., "noopener,noreferrer")`
+- Previews use `textContent`; CSP restricts script/style sources
+- Icons and previews are local SVGs (no remote branding assets)
 
-1. **ICS injection risk**
-   - User-supplied text was inserted into ICS fields without escaping control characters used by the ICS format.
-2. **Weak input validation**
-   - Missing checks for invalid or reversed date ranges.
-3. **Potential unsafe URL handling**
-   - Some interactions did not enforce safer window opening behavior.
-4. **Unbounded reminder input**
-   - No practical max guard on reminder minutes.
-
-### Mitigations implemented
-
-1. **ICS escaping implemented**
-   - Added text escaping for backslashes, commas, semicolons, and newlines before writing `SUMMARY`, `DESCRIPTION`, and `LOCATION`.
-2. **Validation enforcement**
-   - Added explicit checks for required fields and start/end ordering.
-3. **Safer tab opening**
-   - `window.open` now uses `noopener,noreferrer`.
-4. **Bounded numeric input**
-   - Reminder clamped to `0..40320` minutes.
-5. **Reduced DOM risk**
-   - User-facing previews use `textContent`.
-
-## SEO checklist implemented
-
-- Unique title and meta description.
-- Keywords, robots, canonical tags.
-- Open Graph + Twitter tags.
-- Structured data (JSON-LD `SoftwareApplication`).
-- `robots.txt` and `sitemap.xml`.
-
-## Notes
-
-- QR code generation uses `qrcode` from jsDelivr.
-- Service worker enables offline shell caching after first load.
-
-
-## Additional hardening patches
-
-- Added a baseline Content Security Policy in `index.html` to reduce script/object/frame attack surface.
-- Replaced remote icon/preview assets with local SVG assets under `assets/` to reduce third-party dependency/privacy leakage.
-- Tightened service worker app-shell cache scope (removed unnecessary README caching).
-- Switched canonical and sitemap URLs to absolute production-style URLs.
-
-> **Important:** replace `https://eventpulse.example.com` with your real deployed domain before production release.
+> Replace `https://chrono.example.com` with your real domain before production.

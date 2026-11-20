@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://eventpulse.example.com/sitemap.xml
-Host: eventpulse.example.com
+Sitemap: https://chrono.example.com/sitemap.xml
