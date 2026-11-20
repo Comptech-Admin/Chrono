@@ -49,6 +49,7 @@ node tests/smoke.mjs
 - Start/end validation and reminder clamped to `0..40320`
 - `window.open(..., "noopener,noreferrer")`
 - Previews use `textContent`; CSP restricts script/style sources
+- CSP omits `upgrade-insecure-requests` so HTTP (port 80) deploys can load local CSS/JS
 - Icons and previews are local SVGs (no remote branding assets)
 
 ## Live
