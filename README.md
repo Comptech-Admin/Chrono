@@ -45,4 +45,4 @@ node tests/smoke.mjs
 
 ## Live
 
-GitHub Pages: https://comptech-admin.github.io/calendar-reminder/
+GitHub Pages: https://comptech-admin.github.io/Chrono/
