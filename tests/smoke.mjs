@@ -175,7 +175,8 @@ function run() {
   assert.match(manifest.name, /Chrono/);
 
   const sw = readFileSync(new URL("../service-worker.js", import.meta.url), "utf8");
-  assert.match(sw, /chrono-v2/);
+  assert.match(sw, /chrono-v3/);
+  assert.match(html, /comptech-admin\.github\.io\/Chrono\//);
   assert.match(sw, /css\/styles\.css/);
   assert.match(sw, /js\/app\.js/);
 

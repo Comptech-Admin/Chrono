@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://comptech-admin.github.io/calendar-reminder/sitemap.xml
+Sitemap: https://comptech-admin.github.io/Chrono/sitemap.xml
