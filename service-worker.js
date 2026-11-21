@@ -1,4 +1,4 @@
-const CACHE_NAME = "chrono-v3";
+const CACHE_NAME = "chrono-v4";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -8,7 +8,8 @@ const APP_SHELL = [
   "./robots.txt",
   "./sitemap.xml",
   "./assets/icon.svg",
-  "./assets/social-preview.svg"
+  "./assets/social-preview.svg",
+  "./assets/social-preview.png"
 ];
 
 self.addEventListener("install", (event) => {
