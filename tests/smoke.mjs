@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { accessSync, constants, readFileSync } from "node:fs";
 import assert from "node:assert/strict";
 import vm from "node:vm";
 
@@ -169,16 +169,29 @@ function run() {
   const readme = readFileSync(new URL("../README.md", import.meta.url), "utf8");
   assert.match(readme, /^# Chrono/m);
   assert.doesNotMatch(readme, /Datepin|Daywire|EventPulse/);
+  assert.match(readme, /git clone https:\/\/github\.com\/Comptech-Admin\/Chrono\.git/);
+  assert.match(readme, /cd Chrono/);
+  assert.match(readme, /python3 -m http\.server/);
+  assert.match(readme, /GitHub Pages/);
+  assert.match(readme, /screenshot\.png/);
+
+  assert.match(html, /og:image" content="https:\/\/comptech-admin\.github\.io\/Chrono\/assets\/social-preview\.png"/);
+  assert.match(html, /twitter:image" content="https:\/\/comptech-admin\.github\.io\/Chrono\/assets\/social-preview\.png"/);
 
   const manifest = JSON.parse(readFileSync(new URL("../manifest.json", import.meta.url), "utf8"));
   assert.equal(manifest.short_name, "Chrono");
   assert.match(manifest.name, /Chrono/);
 
   const sw = readFileSync(new URL("../service-worker.js", import.meta.url), "utf8");
-  assert.match(sw, /chrono-v3/);
+  assert.match(sw, /chrono-v4/);
   assert.match(html, /comptech-admin\.github\.io\/Chrono\//);
   assert.match(sw, /css\/styles\.css/);
   assert.match(sw, /js\/app\.js/);
+  assert.match(sw, /social-preview\.png/);
+
+  accessSync(new URL("../screenshot.png", import.meta.url), constants.R_OK);
+  accessSync(new URL("../assets/social-preview.png", import.meta.url), constants.R_OK);
+  accessSync(new URL("../LICENSE", import.meta.url), constants.R_OK);
 
   console.log("smoke.mjs: all checks passed");
 }

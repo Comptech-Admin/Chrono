@@ -5,13 +5,19 @@
   "display": "standalone",
   "background_color": "#12181f",
   "theme_color": "#12181f",
-  "description": "Generate calendar invites, reminders, QR codes, and share links.",
+  "description": "Create calendar invites with ICS downloads, Google Calendar links, and QR codes — no account required.",
   "icons": [
     {
       "src": "./assets/icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
+    },
+    {
+      "src": "./assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
     }
   ]
 }
